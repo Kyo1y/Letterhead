@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letterhead</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #fbf9f4;
+            width: 300px;
+            padding: 16px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header img {
+            height: 28px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .status-card {
+            background: #F8E6D0;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .status-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.ok {
+            background: #22c55e;
+        }
+
+        .status-dot.missing {
+            background: #ef4444;
+        }
+
+        .link-btn {
+            display: block;
+            text-align: center;
+            background: #F26419;
+            color: white;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+
+        .link-btn:hover {
+            background: #d4541a;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            margin-top: 12px;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .toggle-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .toggle {
+            position: relative;
+            width: 40px;
+            height: 22px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: #ccc;
+            border-radius: 22px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-track::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .toggle input:checked + .toggle-track {
+            background: #F26419;
+        }
+
+        .toggle input:checked + .toggle-track::after {
+            transform: translateX(18px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="public/loop_no_bg.gif" alt="">
+        <h1>Letterhead</h1>
+    </div>
+
+    <div class="toggle-row">
+        <span class="toggle-label">Letterhead enabled</span>
+        <label class="toggle">
+            <input type="checkbox" id="toggle-enabled">
+            <span class="toggle-track"></span>
+        </label>
+    </div>
+
+    <div class="status-card">
+        <div class="status-row">
+            <span class="status-dot" id="dot-api"></span>
+            <span id="label-api">Checking API key…</span>
+        </div>
+        <div class="status-row">
+            <span class="status-dot" id="dot-resume"></span>
+            <span id="label-resume">Checking résumé…</span>
+        </div>
+        <div class="status-row">
+            <span class="status-dot" id="dot-context"></span>
+            <span id="label-context">Checking context…</span>
+        </div>
+    </div>
+
+    <a href="options.html" target="_blank" class="link-btn" id="setup-link">Open Settings</a>
+
+    <div class="footer">v1.0.0</div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Guide — Letterhead</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="public/tailwind.css">
+    <style>
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-line {
+            width: 2px;
+            background: linear-gradient(to bottom, #F26419, transparent);
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body class="bg-[#fbf9f4] font-[Newsreader]">
+
+    <!-- Nav — mirrors options.html -->
+    <nav class="px-20">
+        <div class="border-b border-gray-500 py-5 flex justify-between items-center">
+            <a href="options.html" class="text-2xl hover:underline flex items-center gap-2">
+                <img class="h-12" src="public/loop_no_bg.gif" alt="">
+                Letterhead
+            </a>
+            <span class="text-xl text-black/40 italic">Setup Guide</span>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="px-20 pt-16 pb-10 fade-in">
+        <h1 class="text-5xl lg:text-6xl leading-tight max-w-3xl">
+            Three things Letterhead needs<br>
+            to <span class="underline decoration-[#F26419]">write like you.</span>
+        </h1>
+        <p class="mt-6 text-2xl text-black/60 max-w-2xl">
+            This page walks you through what each piece does and why it matters.
+            It takes about five minutes.
+        </p>
+    </section>
+
+    <!-- Steps -->
+    <section class="px-20 pb-24 flex flex-col gap-16 max-w-8xl ">
+
+        <!-- ── Step 1: API Key ── -->
+        <article class="fade-in flex flex-row gap-6 max-w-6xl">
+            <div class="flex flex-col">
+                <div class="flex items-center gap-4">
+                    <span class="text-[#F26419] text-5xl font-light select-none">01</span>
+                    <h2 class="text-3xl">Add your API key</h2>
+                </div>
+
+                <div class="bg-[#F8E6D0] rounded-xl p-8 flex flex-col gap-4">
+                    <p class="text-xl leading-relaxed">
+                        Letterhead uses an AI model to read job postings and write cover letters.
+                        To do that, it needs direct access to the model's API — which means you bring your own key.
+                    </p>
+                    <p class="text-xl leading-relaxed text-black/70">
+                        Your key lives <strong>only</strong> in your browser's local storage. It is never sent anywhere
+                        except directly to the AI provider's servers, and only when you trigger a generation.
+                    </p>
+
+                    <div class="border-t border-black/10 pt-4 mt-2 flex flex-col gap-3">
+                        <p class="text-lg font-semibold">Where to get a key</p>
+                        <ol class="list-decimal list-inside text-lg text-black/80 space-y-2">
+                            <li>Go to your AI provider's developer console (e.g. <span
+                                    class="italic">console.anthropic.com</span>).</li>
+                            <li>Create a new API key — name it anything, e.g. <code
+                                    class="bg-black/5 px-1.5 py-0.5 rounded text-base">letterhead</code>.</li>
+                            <li>Copy it (it starts with <code
+                                    class="bg-black/5 px-1.5 py-0.5 rounded text-base">sk-ant-…</code>).</li>
+                            <li>Paste it into the API key field on the <a href="options.html" class="underline">settings
+                                    page</a>.</li>
+                        </ol>
+                    </div>
+
+                    <p class="text-base text-black/50 mt-2 italic">
+                        ⚠ Keys have usage costs. Most cover letters cost less than $0.01 each.
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-4">
+                <!-- Key Icon Inlined -->
+                <img src="public/key_icon.svg" alt="key_icon" class="text-black opacity-10 h-[15rem] rotate-[138deg]">
+                <img src="public/magic_wand_icon.svg" alt="magic_wand_icon" class="text-black opacity-10 h-[15rem]">
+
+            </div>
+
+        </article>
+
+        <!-- ── Step 2: Resume ── -->
+        <article class="fade-in flex gap-6 max-w-6xl">
+            <div class="flex flex-col">
+                <div class="flex items-center gap-4">
+                    <span class="text-[#F26419] text-5xl font-light select-none">02</span>
+                    <h2 class="text-3xl">Upload your résumé</h2>
+                </div>
+
+                <div class="bg-[#F8E6D0] rounded-xl p-8 flex flex-col gap-4">
+                    <p class="text-xl leading-relaxed">
+                        Your résumé is the factual backbone. Letterhead reads it to understand your work history,
+                        titles, skills, and dates — so the generated letters stay grounded in real things you've done.
+                    </p>
+                    <p class="text-xl leading-relaxed text-black/70">
+                        Upload a <strong>.pdf</strong> — Letterhead extracts the text automatically. A cleanly
+                        formatted,
+                        single-column PDF works best; scanned images won't parse well.
+                    </p>
+                    <p class="text-base text-black/50 italic">
+                        The extracted text is stored locally and never leaves your device except as part of an AI
+                        prompt.
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center gap-4">
+                <img src="public/page_with_person_icon.svg" alt="key_icon"
+                    class="text-black opacity-10 h-[15rem] rotate-[-30deg]">
+            </div>
+        </article>
+
+        <!-- ── Step 3: Context ── -->
+        <article class="fade-in flex gap-6 max-w-6xl">
+            <div class="flex flex-col max-w-[973px]">
+                <div class="flex items-center gap-4">
+                    <span class="text-[#F26419] text-5xl font-light select-none">03</span>
+                    <h2 class="text-3xl">What is "context"?</h2>
+                </div>
+
+                <div class="bg-[#F8E6D0] rounded-xl p-8 flex flex-col gap-4">
+                    <p class="text-xl leading-relaxed">
+                        An AI model only knows what you tell it. "Context" is the <em>personal briefing</em> you give
+                        the model before it writes anything — your voice, your values, what you're looking for,
+                        and things your résumé doesn't capture.
+                    </p>
+                    <p class="text-xl leading-relaxed text-black/70">
+                        Think of it as the conversation you'd have with a ghostwriter over coffee before they
+                        write your letter. The richer the context, the more the output sounds like <em>you</em>.
+                    </p>
+
+                    <div class="border-t border-black/10 pt-4 mt-2 flex flex-col gap-3">
+                        <p class="text-lg font-semibold">Good things to include</p>
+                        <ul class="list-disc list-inside text-lg text-black/80 space-y-2">
+                            <li>Roles or industries you're targeting (and ones you're avoiding)</li>
+                            <li>What you're most proud of that doesn't show on a résumé</li>
+                            <li>Preferred writing tone — direct and punchy vs. warm and narrative</li>
+                            <li>Things you want to emphasize or de-emphasize</li>
+                            <li>Why you're looking right now</li>
+                        </ul>
+                    </div>
+
+                    <!-- Example context block -->
+                    <div class="border-t border-black/10 pt-4 mt-2 flex flex-col gap-3">
+                        <p class="text-lg font-semibold">Example context file</p>
+                        <p class="text-base text-black/60 mb-1">
+                            Save this as a <code class="bg-black/5 px-1.5 py-0.5 rounded">context.md</code> file and
+                            upload
+                            it:
+                        </p>
+                        <pre
+                            class="bg-white/70 rounded-xl p-5 text-sm leading-relaxed text-black/80 overflow-x-auto whitespace-pre-wrap"><code># About Me
+
+    I'm a product-minded engineer with 6 years of experience across early-stage
+    startups and mid-size SaaS companies. I tend to work closest to the customer —
+    I've led features end-to-end, written RFCs, done my own user interviews.
+
+    # What I'm Looking For
+
+    Roles at Series A–C companies where engineering and product actually talk.
+    Ideally founding-team energy without the 80-hour weeks. I care more about
+    autonomy and craft than company name or prestige.
+
+    I'm *not* interested in: big tech, defense, pure infrastructure roles,
+    or anything with "10x" in the job description.
+
+    # My Tone
+
+    I write like I talk — direct, no fluff. I'd rather a cover letter sound
+    like a real email than a brochure. Skip the "I am excited to apply for…"
+    opener. Get to the point.
+
+    # Things the Résumé Doesn't Show
+
+    - I rebuilt our onboarding flow from scratch after watching 40 user sessions
+    in a week. Conversion went from 34% to 61%.
+    - I'm the person who actually reads the Figma files, not just the tickets.
+    - I've mentored two junior engineers who both got promoted within a year.
+
+    # Why I'm Looking
+
+    My current company pivoted to enterprise and I'm more energized by
+    consumer-facing products. Looking to make a move in the next 2–3 months.
+    </code></pre>
+                    </div>
+
+                    <p class="text-base text-black/50 italic mt-1">
+                        Plain prose, bullet points, section headers — any structure works.
+                        You can always update this file and re-upload as you refine it.
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col  items-center justify-start gap-[2rem]">
+                <img src="public/cognition_icon.svg" alt="key_icon"
+                    class="text-black opacity-10 h-[15rem]  rotate-[-30deg]">
+                <img src="public/context_token_icon.svg" alt="key_icon"
+                    class="text-black opacity-10  h-[15rem] rotate-[210deg]">
+                <img src="public/scribble.svg" alt="key_icon"
+                    class="text-black opacity-30 mt-[42rem] absolute w-[45rem] h-[45rem] rotate-[90deg]">
+
+            </div>
+
+        </article>
+
+        <!-- CTA -->
+        <div class="fade-in flex items-center gap-6 pt-4">
+            <a href="options.html"
+                class="text-2xl bg-[#F26419] text-white px-6 py-2 rounded-xl hover:bg-[#d4541a] transition-colors">
+                Let's set up →
+            </a>
+            <p class="text-lg text-black/50 italic">Takes about 5 minutes.</p>
+        </div>
+
+    </section>
+
+    <script src="guide.js"></script>
+
+</body>
+
+</html>

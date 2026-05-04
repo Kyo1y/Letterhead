@@ -1,0 +1,21 @@
+{
+  "name": "agentic_apply",
+  "version": "1.0.0",
+  "description": "",
+  "main": "content.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build:css": "tailwindcss -i tailwind.input.css -o public/tailwind.css",
+    "watch:css": "tailwindcss -i tailwind.input.css -o public/tailwind.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
