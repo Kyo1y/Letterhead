@@ -19,7 +19,7 @@
     {
       name: 'ashby',
       test: (url) =>
-        /jobs\.ashbyhq\.com\//.test(url),
+        /jobs\.ashbyhq\.com\/[^/]+\/[^/]+/.test(url),
     },
     {
       name: 'linkedin-job',
@@ -62,12 +62,14 @@
       const el =
         document.querySelector('[data-testid="job-posting-description"]') ||
         document.querySelector('.ashby-job-posting-brief-description') ||
+        document.querySelector('._descriptionText_135ul_202') ||
         document.querySelector('main');
       return el ? el.innerText.trim() : null;
     },
 
     'linkedin-job': () => {
       const el =
+        document.querySelector('._19377e04.a9023f58') ||
         document.querySelector('#job-details') ||
         document.querySelector('.jobs-description-content__text') ||
         document.querySelector('.description__text') ||
