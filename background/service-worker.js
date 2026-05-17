@@ -8,6 +8,19 @@ importScripts(
     '../lib/prompts.js'
 );
 
+// ── Storage migration ──
+// Runs on every service worker boot (idempotent — schemaVersion check).
+// Also wired to onStartup + onInstalled below so it can't be missed.
+LetterheadStorage.migrateIfNeeded().catch(err => {
+    console.error('[Letterhead] Migration failed:', err);
+});
+
+chrome.runtime.onStartup.addListener(() => {
+    LetterheadStorage.migrateIfNeeded().catch(err => {
+        console.error('[Letterhead] Migration failed (onStartup):', err);
+    });
+});
+
 // ── Message Listener ──
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'GENERATE_COVER_LETTER') {
@@ -49,20 +62,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
  * @returns {Promise<{ coverLetter: string }>}
  */
 async function handleCoverLetter({ jobDescription, pageUrl, pageTitle }) {
-    const config = await LetterheadStorage.getConfig();
+    const task = await LetterheadStorage.getTaskConfig('coverLetter');
+    const apiKey = await LetterheadStorage.getApiKey(task.provider);
+    const { resumeText } = await chrome.storage.local.get(['resumeText']);
 
-    if (!config.apiKey || !config.resumeText) {
+    if (!apiKey || !resumeText) {
         throw new Error('Setup incomplete. Please add your API key and résumé in the extension options.');
     }
 
-    const provider = config.apiProvider || 'claude';
-    const { system, user } = LetterheadPrompts.buildCoverLetterPrompt(
-        config.resumeText,
-        config.contextText || '',
-        jobDescription
-    );
-
-    const coverLetter = await LetterheadAPI.generateText(provider, config.apiKey, system, user);
+    const { system, user } = await LetterheadPrompts.buildCoverLetterPrompt(jobDescription);
+    const coverLetter = await LetterheadAPI.generateText(task.provider, apiKey, task.model, system, user);
 
     return { coverLetter };
 }
@@ -73,20 +82,16 @@ async function handleCoverLetter({ jobDescription, pageUrl, pageTitle }) {
  * @returns {Promise<{ outreachMessage: string }>}
  */
 async function handleOutreach({ profileData, pageUrl }) {
-    const config = await LetterheadStorage.getConfig();
+    const task = await LetterheadStorage.getTaskConfig('outreach');
+    const apiKey = await LetterheadStorage.getApiKey(task.provider);
+    const { resumeText } = await chrome.storage.local.get(['resumeText']);
 
-    if (!config.apiKey || !config.resumeText) {
+    if (!apiKey || !resumeText) {
         throw new Error('Setup incomplete. Please add your API key and résumé in the extension options.');
     }
 
-    const provider = config.apiProvider || 'claude';
-    const { system, user } = LetterheadPrompts.buildOutreachPrompt(
-        config.resumeText,
-        config.contextText || '',
-        profileData
-    );
-
-    const outreachMessage = await LetterheadAPI.generateText(provider, config.apiKey, system, user);
+    const { system, user } = await LetterheadPrompts.buildOutreachPrompt(profileData);
+    const outreachMessage = await LetterheadAPI.generateText(task.provider, apiKey, task.model, system, user);
 
     return { outreachMessage };
 }
@@ -103,8 +108,13 @@ async function setIconFromFile(relativePath) {
     await chrome.action.setIcon({ imageData });
 }
 
-// ── Install handler: open options page on first install ──
-chrome.runtime.onInstalled.addListener((details) => {
+// ── Install handler: run migration, open options page on first install ──
+chrome.runtime.onInstalled.addListener(async (details) => {
+    try {
+        await LetterheadStorage.migrateIfNeeded();
+    } catch (err) {
+        console.error('[Letterhead] Migration failed (onInstalled):', err);
+    }
     if (details.reason === 'install') {
         chrome.tabs.create({ url: 'options.html' });
     }

@@ -27,6 +27,21 @@
             width: 2px;
             background: linear-gradient(to bottom, #F26419, transparent);
         }
+
+        .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%23261f1b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.25rem center;
+            background-size: 1.25rem;
+            padding-right: 3.25rem;
+        }
+
+        .custom-select::-ms-expand {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -41,15 +56,15 @@
         </div>
     </nav>
     <section id="form" class="font-[Newsreader] fade-in flex flex-col gap-10 p-20">
-        <div class="flex md:flex-row flex-col gap-5 md:items-end justify-between">
+        <div class="flex md:flex-row flex-col gap-7 md:items-end justify-between">
             <div class="items-center flex-1">
                 <h1 class="text-4xl lg:text-5xl">Welcome to Letterhead.</h1>
                 <h1 class="text-4xl lg:text-5xl">Agent that <span class="underline decoration-[#F26419]">helps</span>,
                     not intervenes.</h1>
             </div>
-            <div class="flex flex-col">   
-                <p class="text-3xl flex-1"><span class="underline decoration-[#F26419]">Apply</span> for jobs and <span class="underline decoration-[#F26419]">reachout</span> on linkedin without friction.</p>
-                <p class="text-3xl flex-1">Let&apos;s setup your context window to make this letter get in their heads.</p>
+            <div class="flex flex-col flex-1">   
+                <p class="text-3xl "><span class="underline decoration-[#F26419]">Apply</span> for jobs and <span class="underline decoration-[#F26419]">reachout</span> on LinkedIn without friction.</p>
+                <p class="text-3xl ">Let&apos;s setup your context window to make this letter get in their heads.</p>
             </div>
             
         </div>
@@ -79,26 +94,145 @@
             </div>
         </div>
 
-        <!-- API Settings -->
+        <!-- API Keys — one input per provider; users only need one -->
         <div class="bg-[#F8E6D0] fade-in rounded-xl p-10 flex flex-col gap-5">
-            <h2 class="text-3xl">API Connection</h2>
+            <h2 class="text-3xl">API Keys</h2>
+            <p class="text-xl text-black/60">
+                Add a key for any provider you want to use. One is enough — if you only configure one provider, both cover letter and outreach will use it.
+            </p>
+            <!-- Rendered from LetterheadStorage.PROVIDERS by options.js -->
+            <div id="api-keys-container" class="flex flex-col gap-3"></div>
+            <p class="text-lg text-black/40 italic">Keys are stored locally and only sent to the provider's API.</p>
+        </div>
+
+        <!-- Cover Letter task config — provider + model + tone, all per-task -->
+        <div class="bg-[#F8E6D0] fade-in rounded-xl p-10 flex flex-col gap-5">
+            <h2 class="text-3xl">Cover Letter</h2>
+            <p class="text-lg text-black/60">Which model writes your cover letters and in what tone.</p>
             <div class="flex md:flex-row flex-col gap-5">
                 <div class="flex-1 flex flex-col gap-2">
-                    <label for="api-provider" class="text-lg text-black/70">Provider</label>
-                    <select id="api-provider"
-                        class="bg-white/70 border flex-1 border-black/20 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#F26419] transition-colors">
-                        <option value="claude">Claude (Anthropic)</option>
-                        <option value="openai">OpenAI</option>
-                    </select>
+                    <label for="provider-coverLetter" class="text-lg text-black/70">Provider</label>
+                    <select id="provider-coverLetter" data-task="coverLetter"
+                        class="custom-select bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#F26419] transition-colors"></select>
                 </div>
-                <div class="flex-[2] flex flex-col gap-2">
-                    <label for="api-key-input" class="text-lg text-black/70">API Key</label>
-                    <input id="api-key-input" type="password" placeholder="sk-ant-… or sk-…"
-                        class="bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#F26419] transition-colors font-mono">
+                <div class="flex-1 flex flex-col gap-2">
+                    <label for="model-coverLetter" class="text-lg text-black/70">Model</label>
+                    <select id="model-coverLetter" data-task="coverLetter"
+                        class="custom-select bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#F26419] transition-colors"></select>
                 </div>
             </div>
-            <p class="text-sm text-black/40 italic">Your key is stored locally and never sent anywhere except the
-                provider's API.</p>
+            <div class="flex flex-col gap-2">
+                <label class="text-lg text-black/70">Tone</label>
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-xl" data-tone-group="coverLetter">
+                    <label class="flex items-center gap-2 cursor-pointer ">
+                        <input type="radio" name="tone-coverLetter" value="casual" class="accent-[#F26419]">
+                        <span>Casual</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="tone-coverLetter" value="formal" class="accent-[#F26419]">
+                        <span>Formal</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="tone-coverLetter" value="contextual" class="accent-[#F26419]">
+                        <span>Contextual</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="tone-coverLetter" value="custom" class="accent-[#F26419]">
+                        <span>Custom prompt</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cover Letter custom prompt editor — shown only when its tone === 'custom' -->
+        <div id="editor-coverLetter" class="hidden bg-[#F8E6D0] fade-in rounded-xl p-10 flex-col gap-5">
+            <div class="flex justify-between items-center">
+                <h2 class="text-3xl">Cover Letter Prompt</h2>
+                <button id="reset-coverLetter" class="text-sm text-black/60 hover:text-[#F26419] underline">Reset to default</button>
+            </div>
+            <div class="text-sm text-black/70 bg-white/40 rounded-lg p-4 flex flex-col gap-1">
+                <p class="font-medium mb-1">Keep these tokens in your prompt — each one gets replaced with your real data when the prompt runs:</p>
+                <p><code class="bg-black/5 px-1 rounded">{resumeText}</code> — your résumé text</p>
+                <p><code class="bg-black/5 px-1 rounded">{contextText}</code> — your context.md content</p>
+                <p><code class="bg-black/5 px-1 rounded">{jobDescription}</code> — the job posting on the page</p>
+                <p class="text-black/40 italic mt-1">Write tone instructions directly in your prompt — there's no {tone} placeholder in custom mode.</p>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-lg text-black/70">System prompt</label>
+                <textarea id="system-coverLetter" data-task="coverLetter" data-field="system" rows="14"
+                    class="bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-base font-mono focus:outline-none focus:border-[#F26419] transition-colors resize-y"></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-lg text-black/70">User prompt</label>
+                <textarea id="user-coverLetter" data-task="coverLetter" data-field="user" rows="3"
+                    class="bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-base font-mono focus:outline-none focus:border-[#F26419] transition-colors resize-y"></textarea>
+            </div>
+            <p id="warn-coverLetter" class="text-sm text-amber-700 italic hidden"></p>
+        </div>
+
+        <!-- Outreach task config -->
+        <div class="bg-[#F8E6D0] fade-in rounded-xl p-10 flex flex-col gap-5">
+            <h2 class="text-3xl">Outreach <span class="text-lg text-black/40 ml-2">(LinkedIn messages)</span></h2>
+            <p class="text-lg text-black/60">Which model writes your outreach messages and in what tone.</p>
+            <div class="flex md:flex-row flex-col gap-5">
+                <div class="flex-1 flex flex-col gap-2">
+                    <label for="provider-outreach" class="text-lg text-black/70">Provider</label>
+                    <select id="provider-outreach" data-task="outreach"
+                        class="custom-select bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#F26419] transition-colors"></select>
+                </div>
+                <div class="flex-1 flex flex-col gap-2">
+                    <label for="model-outreach" class="text-lg text-black/70">Model</label>
+                    <select id="model-outreach" data-task="outreach"
+                        class="custom-select bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#F26419] transition-colors"></select>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-lg text-black/70">Tone</label>
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-xl" data-tone-group="outreach">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="tone-outreach" value="casual" class="accent-[#F26419]">
+                        <span>Casual</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="tone-outreach" value="formal" class="accent-[#F26419]">
+                        <span>Formal</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="tone-outreach" value="contextual" class="accent-[#F26419]">
+                        <span>Contextual</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="tone-outreach" value="custom" class="accent-[#F26419]">
+                        <span>Custom prompt</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outreach custom prompt editor — shown only when its tone === 'custom' -->
+        <div id="editor-outreach" class="hidden bg-[#F8E6D0] fade-in rounded-xl p-10 flex-col gap-5">
+            <div class="flex justify-between items-center">
+                <h2 class="text-3xl">Outreach Prompt</h2>
+                <button id="reset-outreach" class="text-sm text-black/60 hover:text-[#F26419] underline">Reset to default</button>
+            </div>
+            <div class="text-sm text-black/70 bg-white/40 rounded-lg p-4 flex flex-col gap-1">
+                <p class="font-medium mb-1">Keep these tokens in your prompt — each one gets replaced with your real data when the prompt runs:</p>
+                <p><code class="bg-black/5 px-1 rounded">{resumeText}</code> — your résumé text</p>
+                <p><code class="bg-black/5 px-1 rounded">{contextText}</code> — your context.md content</p>
+                <p><code class="bg-black/5 px-1 rounded">{profileData}</code> — the LinkedIn profile sections</p>
+                <p class="text-black/40 italic mt-1">Write tone instructions directly in your prompt — there's no {tone} placeholder in custom mode.</p>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-lg text-black/70">System prompt</label>
+                <textarea id="system-outreach" data-task="outreach" data-field="system" rows="14"
+                    class="bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-base font-mono focus:outline-none focus:border-[#F26419] transition-colors resize-y"></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-lg text-black/70">User prompt</label>
+                <textarea id="user-outreach" data-task="outreach" data-field="user" rows="3"
+                    class="bg-white/70 border border-black/20 rounded-xl px-4 py-3 text-base font-mono focus:outline-none focus:border-[#F26419] transition-colors resize-y"></textarea>
+            </div>
+            <p id="warn-outreach" class="text-sm text-amber-700 italic hidden"></p>
         </div>
 
         <!-- Status bar -->
@@ -108,6 +242,8 @@
 
     <!-- pdf.js (module, needed for PDF extraction in options.js) -->
     <script src="lib/vendor/pdf.min.mjs" type="module"></script>
+    <!-- Storage wrapper — exposes globalThis.LetterheadStorage -->
+    <script src="lib/storage.js"></script>
     <!-- Main options script -->
     <script src="options.js"></script>
 </body>

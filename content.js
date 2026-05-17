@@ -312,15 +312,6 @@
   }
 
   /**
-   * Create the pixel-art envelope icon.
-   */
-  function createPixelEnvelope() {
-    const el = document.createElement('div');
-    el.className = 'lh-pixel-envelope';
-    return el;
-  }
-
-  /**
    * Remove any existing Letterhead banner.
    */
   function removeBanner() {
@@ -363,7 +354,6 @@
 
     banner.querySelector('#lh-btn-yes').addEventListener('click', (e) => {
       e.stopPropagation();
-      sessionActive = true;
       removeBanner();
       triggerGeneration();
     });
@@ -504,7 +494,6 @@
     return div.innerHTML;
   }
 
-  // ─── Generation Trigger ───────────────────────────────────────
 
   async function triggerGeneration() {
     const platform = detectPlatform();
@@ -569,8 +558,10 @@
     }
   }
 
-  // ─── In-memory session state (per content script instance / per tab) ────
-  let sessionActive = false;
+  // ─── Per-page state ────
+  // Resets on every URL change so each new page gets a fresh banner.
+  // We deliberately do NOT persist "yes" — every job posting should ask again,
+  // since a user may open a JD just to look without wanting to generate.
   let sessionDismissed = false;
 
   // ─── Main Entry Point ────────────────────────────────────────
@@ -593,11 +584,6 @@
 
     if (sessionDismissed) return;
 
-    if (sessionActive) {
-      triggerGeneration();
-      return;
-    }
-
     showActivationBanner(platform);
   }
 
@@ -610,6 +596,7 @@
   const urlObserver = new MutationObserver(() => {
     if (location.href !== lastUrl) {
       lastUrl = location.href;
+      sessionDismissed = false; // new page → user gets a fresh banner
       setTimeout(main, 1500); // let the new page content settle
     }
   });
@@ -620,6 +607,7 @@
   window.addEventListener('popstate', () => {
     if (location.href !== lastUrl) {
       lastUrl = location.href;
+      sessionDismissed = false;
       setTimeout(main, 1500);
     }
   });

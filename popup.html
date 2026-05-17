@@ -148,6 +148,57 @@
         .toggle input:checked + .toggle-track::after {
             transform: translateX(18px);
         }
+
+        .model-card {
+            background: #F8E6D0;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .model-section {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .model-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .model-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .model-row-label {
+            font-size: 11px;
+            color: #666;
+            min-width: 52px;
+        }
+
+        .model-select {
+            flex: 1;
+            min-width: 0;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 12px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .model-select:focus {
+            outline: none;
+            border-color: #F26419;
+        }
     </style>
 </head>
 
@@ -180,10 +231,37 @@
         </div>
     </div>
 
+    <!-- Per-task quick switcher: both provider and model editable here. -->
+    <div class="model-card">
+        <div class="model-section">
+            <span class="model-section-title">Cover Letter</span>
+            <div class="model-row">
+                <span class="model-row-label">Provider</span>
+                <select id="provider-coverLetter" class="model-select"></select>
+            </div>
+            <div class="model-row">
+                <span class="model-row-label">Model</span>
+                <select id="model-coverLetter" class="model-select"></select>
+            </div>
+        </div>
+        <div class="model-section">
+            <span class="model-section-title">Outreach</span>
+            <div class="model-row">
+                <span class="model-row-label">Provider</span>
+                <select id="provider-outreach" class="model-select"></select>
+            </div>
+            <div class="model-row">
+                <span class="model-row-label">Model</span>
+                <select id="model-outreach" class="model-select"></select>
+            </div>
+        </div>
+    </div>
+
     <a href="options.html" target="_blank" class="link-btn" id="setup-link">Open Settings</a>
 
     <div class="footer">v1.0.0</div>
 
+    <script src="lib/storage.js"></script>
     <script src="popup.js"></script>
 </body>
 
