@@ -71,7 +71,7 @@ lib/
   vendor/                  Vendored pdf.js (offline, no CDN)
 ```
 
-## Privacy
+## [Privacy](https://gist.github.com/Kyo1y/e07616824012456da32edccbcadddccb)
 
 - Your API key is stored in `chrome.storage.local` — sandboxed to this extension, inaccessible to any website.
 - Your resume text and context are stored the same way.
