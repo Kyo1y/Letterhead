@@ -2,12 +2,11 @@
 
 A Chromium browser extension that detects job postings and LinkedIn profiles as you browse, and generates tailored cover letters and outreach messages on the spot — using your own resume and a personal context file you write once.
 
-![main_page](https://github.com/Kyo1y/Letterhead/blob/main/Main_Page_Letterhead.png?raw=true)
-![first_guide_page](https://github.com/Kyo1y/Letterhead/blob/main/First_Step_Guide_Letterhead.png?raw=true)
-![second_third_guide_page](https://github.com/Kyo1y/Letterhead/blob/main/Second_Third_Step_Guide_Letterhead.png?raw=true)
-![popup](https://github.com/Kyo1y/Letterhead/blob/main/Popup_Letterhead.png?raw=true)
-![job_popup](https://github.com/Kyo1y/Letterhead/blob/main/Job_Popup_Letterhead.png?raw=true)
-![linkedin_popup](https://github.com/Kyo1y/Letterhead/blob/main/LinkedIn_Popup_Letterhead.png?raw=true)
+![main_page](public/for_display/Main_Page_Letterhead.png)
+![first_guide_page](public/for_display/First_Step_Guide_Letterhead.png)
+![popup](public/for_display/Popup_Letterhead.png)
+![job_popup](public/for_display/Job_Popup_Letterhead.png)
+![linkedin_popup](public/for_display/LinkedIn_Popup_Letterhead.png)
 
 
 ## How it works

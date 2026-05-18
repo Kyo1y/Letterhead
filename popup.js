@@ -114,6 +114,8 @@ async function refresh() {
 
 refresh();
 
+document.getElementById('version-footer').textContent = `v${chrome.runtime.getManifest().version}`;
+
 toggleEnabled.addEventListener('change', () => {
     const on = toggleEnabled.checked;
     chrome.storage.local.set({ enabled: on });
